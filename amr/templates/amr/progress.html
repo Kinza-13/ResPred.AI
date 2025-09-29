@@ -1,0 +1,162 @@
+{% load static %} 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Processing • ResistPredict.AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#f6f8fc; --card:#fff; --ink:#0f172a; --muted:#64748b; --accent:#2855f5; --ok:#10b981; --err:#ef4444; }
+    * { box-sizing:border-box }
+    body { margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--ink); }
+    .wrap { max-width:880px; margin:48px auto; padding:0 16px; }
+
+    /* brand */
+    .logo { text-align:center; margin-bottom:8px; }
+    .logo img { width:56px; height:56px; display:block; margin:0 auto 8px; }
+    .logo .wordmark { font-size:28px; font-weight:800; }
+    .subtitle { text-align:center; color:var(--muted); margin-bottom:28px; }
+
+    .card { background:var(--card); border-radius:18px; padding:28px; box-shadow:0 10px 30px rgba(2,6,23,.06); }
+    .title { font-size:22px; font-weight:800; text-align:center; }
+    .run { text-align:center; color:var(--muted); font-size:12px; margin-top:6px; }
+
+    /* steps */
+    .steps { display:flex; justify-content:space-between; margin:24px 0 14px; padding:0 8px; gap:6px; }
+    .step { text-align:center; width:20%; font-size:12px; color:var(--muted); }
+    .dot { width:10px; height:10px; border-radius:50%; margin:0 auto 8px; background:#cbd5e1; transition:.2s; }
+    .label { transition:.2s; }
+    .step.active .dot { background:var(--accent); }
+    .step.done   .dot { background:var(--ok); }
+    .step.active .label { color:var(--accent); font-weight:700; }
+    .step.done   .label { color:var(--ink); font-weight:700; }
+
+    /* progress bar */
+    .bar { height:10px; background:#eef2ff; border-radius:999px; overflow:hidden; }
+    .fill { height:100%; width:0%; background:var(--accent); transition:width .35s ease; }
+    .pct { margin-top:8px; color:var(--muted); font-size:13px; text-align:center; }
+
+    /* status + buttons */
+    .status { margin-top:14px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace; background:#0b1220; color:#e5edff; border-radius:12px; padding:14px 16px; font-size:12.5px; }
+    .btnrow { margin-top:18px; display:flex; justify-content:center; gap:12px; }
+    .btn { appearance:none; border:0; padding:10px 16px; border-radius:12px; font-weight:600; cursor:pointer; }
+    .btn-primary { background:var(--accent); color:white; }
+    .btn-primary[disabled] { opacity:.5; cursor:not-allowed; }
+    .btn-secondary { background:#e2e8f0; color:#0f172a; }
+
+    .error { margin-top:12px; color:#fff; background:var(--err); padding:10px 12px; border-radius:10px; font-size:13px; }
+    .note { text-align:center; color:var(--muted); font-size:12px; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- brand header -->
+    <div class="logo">
+      <img src="{% static 'img/logo_chip.png' %}" alt="ResistPredict.AI logo">
+      <div class="wordmark">ResistPredict.AI</div>
+    </div>
+    <div class="subtitle">Prediction of Antimicrobial Resistance Gene Family</div>
+
+    <div class="card">
+      <div class="title">Processing your Sequences</div>
+      <div class="run">Run ID: <span id="runId">{{ run_id }}</span></div>
+
+      <div class="steps">
+        <div class="step" id="s1"><div class="dot"></div><div class="label">Uploaded file</div></div>
+        <div class="step" id="s2"><div class="dot"></div><div class="label">Physicochemical<br>Properties</div></div>
+        <div class="step" id="s3"><div class="dot"></div><div class="label">Post Translational Modifications</div></div>
+        <div class="step" id="s4"><div class="dot"></div><div class="label">ESM2 Embeddings</div></div>
+        <div class="step" id="s5"><div class="dot"></div><div class="label">Predictions</div></div>
+      </div>
+
+      <div class="bar"><div class="fill" id="fill"></div></div>
+      <div class="pct" id="pct">Progress: 0%</div>
+
+      <div class="status"><span id="msg">Starting…</span></div>
+      <div id="err" class="error" style="display:none;"></div>
+
+      <div class="btnrow">
+        <button id="resultsBtn" class="btn btn-primary" disabled>View Results</button>
+        <a href="{% url 'amr:amr_predict' %}" class="btn btn-secondary">Start New Run</a>
+      </div>
+
+      <div class="note">This page updates automatically while your job runs.</div>
+    </div>
+  </div>
+
+  <script>
+    const runId = "{{ run_id }}";
+    const fallbackResults = "{{ results_url|escapejs }}";
+    const statusUrl = `/amr/progress/${runId}/status/`;
+
+    const fill = document.getElementById('fill');
+    const pct  = document.getElementById('pct');
+    const msg  = document.getElementById('msg');
+    const errB = document.getElementById('err');
+    const btn  = document.getElementById('resultsBtn');
+
+    // Step mapping: include PTM keywords (so the step highlights),
+    // and we’ll also use percent as a fallback.
+    const steps = [
+      { id: 's1', match: /(Queued|Starting|Upload)/i },
+      { id: 's2', match: /(Physicochemical|peptide|PTM|MusiteDeep)/i },
+      { id: 's3', match: /(ESM2|Embedding)/i },
+      { id: 's4', match: /(Merging|Merge|Feature|Selected)/i },
+      { id: 's5', match: /(Publishing|Final|Completed|prediction|Predict|Binary|Multiclass)/i },
+    ];
+
+    function paintSteps(text, percent) {
+      steps.forEach((s) => document.getElementById(s.id).classList.remove('active','done'));
+      let active = steps.findIndex(s => s.match.test(text || ''));
+
+      // Percent-based fallback (keeps the UI moving even if messages differ)
+      if (active < 0) {
+        if (percent < 15) active = 0;
+        else if (percent < 55) active = 1;   // physico + PTMs
+        else if (percent < 80) active = 2;   // ESM2
+        else if (percent < 95) active = 3;   // merge/selection
+        else active = 4;                     // predictions
+      }
+
+      steps.forEach((s, i) => {
+        const el = document.getElementById(s.id);
+        if (i < active) el.classList.add('done');
+        else if (i === active) el.classList.add('active');
+      });
+    }
+
+    async function poll() {
+      try {
+        const r = await fetch(statusUrl, { cache: 'no-store' });
+        const data = await r.json();
+
+        const p = Math.max(0, Math.min(100, Number(data.percent || 0)));
+        fill.style.width = p + '%';
+        pct.textContent = `Progress: ${p}%`;
+
+        const text = data.message || 'Working…';
+        msg.textContent = text;
+        paintSteps(text, p);
+
+        if (data.error) {
+          errB.style.display = 'block';
+          errB.textContent = `Error: ${data.error}`;
+        }
+
+        const target = data.redirect || fallbackResults;
+        btn.onclick = () => window.location.href = target;
+
+        if (data.done) {
+          btn.disabled = false;
+          return;
+        }
+      } catch (e) {}
+      setTimeout(poll, 1200);
+    }
+    poll();
+  </script>
+</body>
+</html>

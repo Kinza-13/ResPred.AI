@@ -1,0 +1,95 @@
+ID,Predict_AMR_Gene_Family
+Prevalence_Sequence_ID:38330|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38337|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38344|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38378|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38393|ARO_Name:qacG|ARO:3007015|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38421|ARO_Name:qacG|ARO:3007015|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38434|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38508|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38510|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38511|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38526|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38547|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38590|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38591|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38593|ARO_Name:qacG|ARO:3007015|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38594|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38595|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38608|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38613|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38619|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38625|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38642|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38652|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38656|ARO_Name:qacJ|ARO:3007014|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38665|ARO_Name:qacL|ARO:3005098|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38673|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38675|ARO_Name:qacG|ARO:3007015|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38676|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38677|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38679|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38681|ARO_Name:qacG|ARO:3007015|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38682|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38685|ARO_Name:amrA|ARO:3002982|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38690|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38750|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38775|ARO_Name:qacJ|ARO:3007014|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38781|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:38782|ARO_Name:emrR|ARO:3000516|Detection_Model:Protein,major facilitator superfamily (MFS) antibiotic efflux pump
+Prevalence_Sequence_ID:38790|ARO_Name:FosA8|ARO:3007371|Detection_Model:Protein,fosfomycin thiol transferase
+Prevalence_Sequence_ID:38791|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38795|ARO_Name:vanW_in_vanI_cl|ARO:3003724|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38796|ARO_Name:vanT_in_vanG_cl|ARO:3002972|Detection_Model:Protein,rare
+Prevalence_Sequence_ID:38797|ARO_Name:vanXY_in_vanG|ARO:3003069|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38799|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38800|ARO_Name:vanW_in_vanB_cl|ARO:3002964|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38801|ARO_Name:vanW_in_vanB_cl|ARO:3002964|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38802|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38805|ARO_Name:tet(W/32/O)|ARO:3007124|Detection_Model:Protein,Tetracycline Resistance
+Prevalence_Sequence_ID:38809|ARO_Name:vanW_in_vanI_cl|ARO:3003724|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38810|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38811|ARO_Name:vanW_in_vanB_cl|ARO:3002964|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:38817|ARO_Name:vanT_in_vanG_cl|ARO:3002972|Detection_Model:Protein,pmr phosphoethanolamine transferase
+Prevalence_Sequence_ID:38826|ARO_Name:adeF|ARO:3000777|Detection_Model:Protein,Multidrug Efflux System
+Prevalence_Sequence_ID:16251|ARO_Name:BcIII|ARO:3007101|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16258|ARO_Name:vanY_in_vanA_cl|ARO:3002955|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16261|ARO_Name:BcII|ARO:3002878|Detection_Model:Protein,Subclass B1 Metallo-β-Lactamase
+Prevalence_Sequence_ID:16262|ARO_Name:BcIII|ARO:3007101|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16264|ARO_Name:vanW_in_vanG_cl|ARO:3002965|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16265|ARO_Name:BcI|ARO:3002877|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16266|ARO_Name:vanY_in_vanF_cl|ARO:3002958|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16273|ARO_Name:BcIII|ARO:3007101|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16274|ARO_Name:vanY_in_vanM_cl|ARO:3002961|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16276|ARO_Name:vanT_in_vanG_cl|ARO:3002972|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16280|ARO_Name:vanW_in_vanG_cl|ARO:3002965|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16281|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16283|ARO_Name:BcII|ARO:3002878|Detection_Model:Protein,Subclass B1 Metallo-β-Lactamase
+Prevalence_Sequence_ID:16285|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16286|ARO_Name:tetB(P)|ARO:3000195|Detection_Model:Protein,Tetracycline Resistance
+Prevalence_Sequence_ID:16287|ARO_Name:vanW_in_vanI_cl|ARO:3003724|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16288|ARO_Name:BcI|ARO:3002877|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16290|ARO_Name:vanY_in_vanF_cl|ARO:3002958|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16296|ARO_Name:vanT_in_vanG_cl|ARO:3002972|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16299|ARO_Name:vanY_in_vanB_cl|ARO:3002956|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16300|ARO_Name:FosBx1|ARO:3007372|Detection_Model:Protein,fosfomycin thiol transferase
+Prevalence_Sequence_ID:16304|ARO_Name:BcIII|ARO:3007101|Detection_Model:Protein,class A Bacillus cereus Bc beta-lactamase
+Prevalence_Sequence_ID:16305|ARO_Name:FosB|ARO:3000172|Detection_Model:Protein,fosfomycin thiol transferase
+Prevalence_Sequence_ID:16311|ARO_Name:BcII|ARO:3002878|Detection_Model:Protein,Subclass B1 Metallo-β-Lactamase
+Prevalence_Sequence_ID:16314|ARO_Name:vanY_in_vanF_cl|ARO:3002958|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16360|ARO_Name:FosB|ARO:3000172|Detection_Model:Protein,fosfomycin thiol transferase
+Prevalence_Sequence_ID:16363|ARO_Name:vanT_in_vanG_cl|ARO:3002972|Detection_Model:Protein,Vancomycin Resistance (Van gene cluster)
+Prevalence_Sequence_ID:16395|ARO_Name:BcII|ARO:3002878|Detection_Model:Protein,Subclass B1 Metallo-β-Lactamase
+Q3J7R8.1,Multidrug Efflux System
+P59653.1,Multidrug Efflux System
+Q5V0G3.1,Multidrug Efflux System
+Q00564.1,Multidrug Efflux System
+P23886.2,Multidrug Efflux System
+Q10418.1,Multidrug Efflux System
+Q58639.1,Vancomycin Resistance (Van gene cluster)
+Q9HS13.1,Multidrug Efflux System
+P75186.1,Multidrug Efflux System
+P47311.1,rare
+O57896.1,Vancomycin Resistance (Van gene cluster)
+P94367.1,Multidrug Efflux System
+B0R5G4.1,rare

@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing • ResistPredict.AI</title>
+  <style>
+    :root {
+      --main: #011C40;   /* Primary deep navy */
+      --c1: #033E8C;
+      --c2: #0455BF;
+      --c3: #0477BF;
+      --soft: #9AB5D9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--main);
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero section */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      text-align: center;
+    }
+    .hero img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 900;
+      margin: 0;
+    }
+    .hero h2 {
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 700;
+      color: var(--c1);
+      margin: 8px 0 20px;
+    }
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 24px;
+      color: #183657;
+      line-height: 1.6;
+    }
+    /* Justify ONLY the blurb paragraph */
+    .hero p.justify {
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(90deg, var(--c2), var(--c3));
+      box-shadow: 0 8px 18px rgba(3,62,140,.25);
+      transition: transform .04s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(4,85,191,.28);
+    }
+    .btn:active {
+      transform: translateY(0);
+      opacity: .95;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--main);
+      color: white;
+      text-align: center;
+      padding: 14px 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="{% static 'img/logo_chip.png' %}" alt="ResistPredict.AI Logo">
+    <h1>ResistPredict.AI</h1>
+    <h2>AI prediction of Resistance and Virulence in bacterial pathogens</h2>
+
+    <!-- Apply the justify class here -->
+    <p class="justify">
+      ResistPredict.AI utilizes advanced machine learning algorithms to predict antibiotic resistance genes (ARGs) and virulence factors (VFs) in bacterial pathogens.
+      It incorporates continuously updated, diverse datasets for broader applicability across bacterial species to help researchers and healthcare workers fight with antibiotic resistance.
+    </p>
+
+    <a class="btn" href="{% url 'choose' %}">Enter</a>
+  </div>
+
+  <footer>
+    © 2025 Microbial Genomics &amp; Bioinformatics |<br>
+    Integrative Biology Laboratory, Atta-ur-Rahman School of Applied Biosciences (ASAB) <br>
+    National University of Sciences and Technology (NUST), Islamabad.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AMR • Antimicrobial Resistance Prediction</title>
+  <style>
+    :root{
+      --main:#011C40;      /* primary */
+      --c1:#033E8C;        /* accents */
+      --c2:#0455BF;
+      --c3:#0477BF;
+      --soft:#9AB5D9;
+      --text:#0f172a;
+      --muted:#2b3a55;
+      --bg:#f7fbff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--text); background:linear-gradient(180deg,var(--bg) 0%, #fff 45%);
+      min-height:100vh; display:flex; flex-direction:column;
+    }
+
+    /* header */
+    .top{display:flex; gap:12px; align-items:center; justify-content:center; padding:28px 16px 10px}
+    .logo{width:54px;height:54px}
+    .brand{font-weight:900; font-size:clamp(22px,3vw,30px); color:var(--main); letter-spacing:.3px}
+    .subtitle{text-align:center; color:var(--c1); font-weight:800; margin:8px 0 18px 0; font-size:clamp(22px,2.6vw,32px)}
+
+    /* layout */
+    .wrap{width:100%; max-width:1100px; margin:0 auto; padding:0 16px 26px}
+    .grid{display:grid; gap:22px; grid-template-columns: 1.2fr .8fr;}
+    @media (max-width: 920px){ .grid{ grid-template-columns: 1fr; } }
+
+    /* cards */
+    .card{
+      background:#fff; border:1px solid #e6eef9; border-radius:18px; padding:22px;
+      box-shadow:0 10px 28px rgba(1,28,64,.08);
+    }
+    .card h2{margin:0 0 12px 0; font-size:clamp(18px,2.2vw,24px); color:var(--main)}
+    .hint{color:#385277; font-size:14px}
+
+    .drop{
+      border:2px dashed #cfe0f6; border-radius:14px; padding:22px; text-align:center; background:#fbfdff;
+    }
+    .or{margin:10px 0; color:#6b7a93}
+    .pill{display:inline-block; padding:.25rem .55rem; border-radius:999px; background:#eef5ff; color:#163b6b; font-size:12px}
+
+    /* sequence count pill */
+    .seq-pill{
+      display:inline-flex; align-items:center; gap:.45rem;
+      background:#eef2ff; color:#1e3a8a; font-weight:700;
+      border:1px solid #c7d2fe; border-radius:999px;
+      padding:.35rem .75rem; margin-top:.6rem;
+    }
+
+    /* inputs & button */
+    .file-input{display:inline-block; padding:.65rem .9rem; background:#eef4ff; border-radius:10px}
+    .file-input input[type=file]{border:0; background:transparent}
+    .actions{margin-top:16px}
+    .btn{
+      display:inline-block; border:none; cursor:pointer;
+      padding:.9rem 1.6rem; border-radius:12px; color:#fff; font-weight:800;
+      background:linear-gradient(90deg,var(--c2),var(--c3));
+      box-shadow:0 10px 22px rgba(3,62,140,.25);
+    }
+    .btn[disabled]{opacity:.7; cursor:not-allowed; filter:grayscale(.15)}
+    .btn:hover:not([disabled]){filter:brightness(1.03)}
+
+    /* help panel */
+    pre{
+      margin:10px 0 0 0; overflow:auto; background:#0b1a33; color:#e6f0ff;
+      padding:14px; border-radius:12px; font-size:12.5px; line-height:1.45;
+    }
+
+    /* footer */
+    footer{
+      margin-top:auto; background:var(--main); color:#fff; text-align:center;
+      padding:12px 10px; font-size:14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- header -->
+  <div class="top">
+    <img class="logo" src="{% static 'img/logo_chip.png' %}" alt="ResistPredict.AI logo">
+    <div class="brand">ResistPredict.AI</div>
+  </div>
+  <h1 class="subtitle">Antimicrobial Resistance Prediction</h1>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- LEFT: upload card -->
+      <section class="card">
+        <h2>1) Upload your FASTA</h2>
+        <div class="hint">Accepted: <span class="pill">.fasta</span></div>
+
+        <form id="amrForm" method="post" enctype="multipart/form-data" class="actions">
+          {% csrf_token %}
+          <div id="dropArea" class="drop" aria-live="polite">
+            <div>Drag &amp; drop your file here</div>
+            <div class="or">— or —</div>
+            <label class="file-input">
+              <!-- only .fasta; no content checks -->
+              <input id="fastaInput" type="file" name="fasta_file" accept=".fasta" required>
+            </label>
+
+            <!-- Sequence count pill (hidden until a file is chosen) -->
+            <div id="seqCountWrap" class="seq-pill" aria-live="polite" style="display:none;">
+              <span>Sequences:</span> <strong id="seqCountValue">0</strong>
+            </div>
+
+            <div class="hint" style="margin-top:8px">Only protein FASTA (*.fasta).</div>
+          </div>
+
+          <div class="actions">
+            <button id="runBtn" class="btn" type="submit" disabled>Run Prediction</button>
+          </div>
+        </form>
+
+        {% if message %}<p style="color:green;margin-top:10px">{{ message }}</p>{% endif %}
+        {% if error %}<p style="color:#b00020;margin-top:10px">{{ error }}</p>{% endif %}
+      </section>
+
+      <!-- RIGHT: help / tips -->
+      <aside class="card">
+        <h2>Need a hand?</h2>
+        <p class="hint">Example FASTA format:</p>
+        <pre>>seq_1
+MKKVIFLALVLSAASAAPAAAADNNNNQQQQKKK
+>seq_2
+MPEPTIDESEQVVVVGGGSSSAAA
+</pre>
+        <p class="hint" style="margin-top:12px">
+          Tips:
+          <br>• Upload <strong>protein</strong> FASTA only.
+          <br>• One file at a time, extension must be <strong>.fasta</strong>.
+          <br>• Your data is processed securely and not retained.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <footer>© 2025 ResistPredict.AI • AMR Module</footer>
+
+  <script>
+    // On-submit: lock the button so users don't double-submit.
+    (function(){
+      const form = document.getElementById('amrForm');
+      const btn  = document.getElementById('runBtn');
+      form.addEventListener('submit', function(){
+        // If no sequences were detected, do nothing (button stays disabled).
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Running…';
+      });
+    })();
+
+    // Sequence counter for FASTA file (picker + drag/drop)
+    (function(){
+      const fileInput = document.getElementById('fastaInput');
+      const dropArea  = document.getElementById('dropArea');
+      const runBtn    = document.getElementById('runBtn');
+
+      const pillWrap  = document.getElementById('seqCountWrap');
+      const pillValue = document.getElementById('seqCountValue');
+
+      function countFasta(text){
+        // Count lines that begin with ">" (trim leading spaces); ignore blank lines
+        let n = 0;
+        const lines = text.replace(/\r/g, '\n').split('\n');
+        for (let line of lines){
+          if (/^\s*>/.test(line)) n++;
+        }
+        return n;
+      }
+
+      function updateFromFile(file){
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const n = countFasta(reader.result || '');
+          pillValue.textContent = n;
+          pillWrap.style.display = 'inline-flex';
+          runBtn.disabled = (n === 0);
+        };
+        reader.readAsText(file);
+      }
+
+      // File picker
+      fileInput.addEventListener('change', (e) => {
+        const f = e.target.files && e.target.files[0];
+        updateFromFile(f);
+      });
+
+      // Drag & drop UX (prevent default to allow drop)
+      ['dragenter','dragover','dragleave','drop'].forEach(ev => {
+        dropArea.addEventListener(ev, (e) => {
+          e.preventDefault(); e.stopPropagation();
+        });
+      });
+
+      dropArea.addEventListener('drop', (e) => {
+        const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f){
+          // Keep the input in sync (so form submission works)
+          fileInput.files = e.dataTransfer.files;
+          updateFromFile(f);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

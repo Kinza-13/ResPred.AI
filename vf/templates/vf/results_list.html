@@ -1,0 +1,331 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>All Output Files • ResistPredict.AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0b1324; --sub:#5a6b86; --bg:#f6f8fc; --card:#ffffff;
+      --brand:#2563eb; --brand-2:#1e40af; --ring:#e5ecfb;
+      --title-bg:#f1f6ff; --title-border:#d8e4ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .wrap{max-width:1120px;margin:28px auto 56px;padding:0 18px}
+
+    .brandbar{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:6px;margin-bottom:24px}
+    .brandbar img{height:64px;width:auto}
+    .brandbar h1{font-size:34px;font-weight:800;margin:0;color:var(--ink);letter-spacing:-0.02em}
+    .brandbar h2{font-size:20px;font-weight:600;margin:0;color:var(--sub)}
+
+    .toolbar{display:flex;gap:12px;align-items:center;margin:12px 0 24px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--brand);color:#fff;text-decoration:none;border:0;border-radius:10px;padding:10px 14px;font-weight:700;line-height:1.1;cursor:pointer;box-shadow:0 6px 16px rgba(37,99,235,.18)}
+    .btn:hover{background:var(--brand-2)}
+    .btn.outline{background:#fff;color:var(--brand);border:2px solid var(--ring);box-shadow:none}
+    .muted{color:var(--sub);font-size:14px}
+    .helpbar{display:flex;gap:10px;align-items:center;margin-left:auto}
+    .helpbox{display:none;background:#0b1324;color:#e8f0ff;padding:12px 14px;border-radius:10px;box-shadow:0 12px 30px rgba(2,6,23,.3)}
+    .helpbox.show{display:block}
+
+    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.06);padding:16px 16px 12px;margin:16px 0 26px}
+
+    .sec-title{
+      display:flex;align-items:center;gap:10px;justify-content:center;
+      margin:2px 2px 12px; padding:12px 14px;
+      background:linear-gradient(180deg,#f7faff 0%, var(--title-bg) 100%);
+      border:1px solid var(--title-border); border-radius:12px;
+      color:var(--ink); font-weight:800; font-size:18px; letter-spacing:.01em;
+    }
+    .sec-title .mark{width:10px;height:10px;border-radius:999px;background:var(--brand);box-shadow:0 0 0 4px rgba(37,99,235,.10);}
+
+    /* ===== Files table ===== */
+    table{width:100%;border-collapse:separate;border-spacing:0 10px;table-layout:fixed}
+    col.col-name{width:70%} col.col-dl{width:30%}
+    thead th{padding:12px 14px;color:#fff;background:linear-gradient(90deg,#0f172a,#0b1324);text-align:left;font-size:13px;letter-spacing:.02em}
+    thead th:last-child{text-align:center}
+    td{padding:14px 14px;vertical-align:middle;background:#fbfdff;border:1px solid var(--ring)}
+    tbody tr{border-radius:12px;overflow:hidden}
+    tbody tr td:first-child{border-radius:12px 0 0 12px}
+    tbody tr td:last-child{border-radius:0 12px 12px 0}
+    .filename{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .actions{text-align:center}
+    .btn-download{background:linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%); box-shadow:0 10px 22px rgba(37,99,235,.25); border:0; padding:10px 16px; border-radius:12px;}
+    .btn-download:hover{filter:brightness(.96);box-shadow:0 12px 26px rgba(30,64,175,.30)}
+
+    /* ===== Function lanes (compact, single row) ===== */
+    #vizToolbar{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 10px}
+    .chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .chip{font-size:12px;border-radius:999px;padding:6px 10px;font-weight:700;border:1px solid}
+    .c-non{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+    .c-vir{background:#fef2f2;color:#7f1d1d;border-color:#fecaca}
+
+    /* tighter padding */
+    #barScroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--ring);border-radius:14px;padding:8px;background:#fbfdff;scrollbar-width:thin}
+    /* single row, less gap */
+    #barGrid{display:flex;flex-wrap:nowrap;gap:6px;align-items:flex-end;min-height:320px;width:max-content}
+
+    /* narrower lane */
+    .lane{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:86px}
+    .lane-body{
+      display:flex;flex-direction:column;gap:5px;justify-content:flex-end;align-items:center;
+      padding:6px 4px;border:1px dashed #e5ecfb;border-radius:10px;min-height:230px;background:#fff
+    }
+    .tile{width:14px;height:14px;border-radius:5px;border:1px solid #0f172a22;cursor:pointer}
+    .lane-label{margin-top:6px;max-width:96px;text-align:center;font-size:10.5px;color:#334155;font-weight:700}
+    .hint{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:999px;background:#e2e8f0;color:#0f172a;font-size:11px;margin-left:4px;cursor:default}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,.46);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+    .modal .box{background:#fff;border-radius:14px;max-width:720px;width:100%;box-shadow:0 30px 80px rgba(2,6,23,.35)}
+    .box-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #e5ecfb}
+    .box-body{padding:14px 16px;max-height:60vh;overflow:auto}
+    .ids{display:flex;flex-wrap:wrap;gap:8px}
+    .idtag{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:999px;padding:4px 8px;font-size:12px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">
+    <img src="{% static 'img/logo_chip.png' %}" alt="ResistPredict.AI logo">
+    <h1>ResistPredict.AI</h1>
+    <h2>Predictions of Virulence Functional Categories</h2>
+  </div>
+
+  <div class="toolbar">
+    <a class="btn" href="{{ zip_links.features_vf }}">features_vf.zip</a>
+    <a class="btn" href="{{ zip_links.pred_vf }}">pred_vf.zip</a>
+    <span class="muted">Download all results as ZIP</span>
+    <div class="helpbar">
+      <button class="btn outline" id="helpBtn" type="button">Help</button>
+      <div id="helpBox" class="helpbox">
+        Click any coloured tile to see the <b>IDs</b>. Use the <b>Export PNG</b> button to save the lanes panel.
+      </div>
+    </div>
+  </div>
+
+  {% with preds=pred_items|default:items %}
+  <!-- ===== Visualization ===== -->
+  <div id="vizCard" class="card" style="display:none">
+    <div class="sec-title"><span class="mark"></span>Virulence Overview</div>
+
+    <div id="vizToolbar">
+      <div class="chips">
+        <span id="chipNon" class="chip c-non">Non-virulent: 0</span>
+        <span id="chipVir"  class="chip c-vir">Virulent: 0</span>
+      </div>
+      <button id="btnExport" class="btn outline" type="button">Export PNG</button>
+    </div>
+
+    <div id="barScroll">
+      <div id="barGrid" aria-label="Function lanes"></div>
+    </div>
+  </div>
+
+  <!-- ===== Files ===== -->
+  <div class="card">
+    <div class="sec-title"><span class="mark"></span>Prediction of Virulence Functions</div>
+    <table aria-label="VF prediction files">
+      <colgroup><col class="col-name"><col class="col-dl"></colgroup>
+      <thead><tr><th>Results</th><th>Download</th></tr></thead>
+      <tbody>
+      {% for it in preds %}
+        {% if it.folder == 'pred_vf' and it.name == 'multiclass_only_predictions.csv' %}
+          <tr>
+            <td class="filename" title="{{ it.name }}">Prediction of functional category of virulence factors (CSV)</td>
+            <td class="actions"><a class="btn btn-download" href="{{ it.url }}" download>Download</a></td>
+          </tr>
+        {% endif %}
+        {% if it.folder == 'pred_vf' and it.name == 'prediction_vf_multiclass.csv' %}
+          <tr>
+            <td class="filename" title="{{ it.name }}">Prediction of functional category of virulence factors (CSV, legacy name)</td>
+            <td class="actions"><a class="btn btn-download" href="{{ it.url }}" download>Download</a></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span class="mark"></span>Prediction of Virulence Sequences</div>
+    <table aria-label="Extracted FASTA">
+      <colgroup><col class="col-name"><col class="col-dl"></colgroup>
+      <thead><tr><th>Results</th><th>Download</th></tr></thead>
+      <tbody>
+      {% for it in preds %}
+        {% if it.folder == 'pred_vf' and it.name == 'multiclass_sequences.fasta' %}
+          <tr>
+            <td class="filename" title="{{ it.name }}">Virulence sequences (FASTA)</td>
+            <td class="actions"><a class="btn btn-download" href="{{ it.url }}" download>Download</a></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endwith %}
+
+  <div style="margin-top:10px">
+    <a href="{% url 'vf:vf_predict' %}" style="text-decoration:none;color:var(--brand);font-weight:700">← Back to Upload</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+  // Help
+  document.getElementById('helpBtn')?.addEventListener('click',()=>document.getElementById('helpBox').classList.toggle('show'));
+
+  // Data from Django
+  const LANES   = {{ lanes_json|default:'[]'|safe }};
+  const SUMMARY = {{ binary_summary_json|default:'{}'|safe }};
+
+  if (Array.isArray(LANES) && LANES.length){ document.getElementById('vizCard').style.display='block'; }
+
+  if (SUMMARY){
+    const non = SUMMARY.non ?? 0, vir = SUMMARY.vir ?? 0;
+    const c1 = document.getElementById('chipNon'), c2 = document.getElementById('chipVir');
+    if (c1) c1.textContent = `Non-virulent: ${non}`;
+    if (c2) c2.textContent = `Virulent: ${vir}`;
+  }
+
+  const FUNCTION_COLOURS = {
+    'effector delivery': ['#f43f5e', '#93c5fd', '#1d4ed8'],
+    'immune modulation': ['#06b6d4', '#7dd3fc', '#0891b2'],
+    'motility':          ['#10b981', '#86efac', '#059669'],
+    'exotoxin':          ['#ebb71cff', '#fde047', '#a16207'],
+    'nutritional':       ['#f97316', '#fdba74', '#c2410c'],
+    'regulation':        ['#b266f9ff', '#d8b4fe', '#7e22ce'],
+    'adherence':         ['#22d3ee', '#bae6fd', '#0891b2'],
+    'exoenzyme':         ['#3b82f6', '#fecdd3', '#be123c'],
+    'others':            ['#64748b', '#cbd5e1', '#334155'],
+    'rare':              ['#ef5d5dff','#fecaca','#b91c1c']
+  };
+  const RARE_DETAIL = [
+    'Antimicrobial activity/Competitive advantage (VFC0325)',
+    'Post-translational modification (VFC0315)',
+    'Stress survival (VFC0282)',
+    'Invasion (VFC0083)'
+  ];
+
+  function keyFor(name){
+    if(!name) return 'others';
+    const n = name.toLowerCase();
+    if (n.startsWith('effector')) return 'effector delivery';
+    if (n.startsWith('immune'))   return 'immune modulation';
+    if (n.startsWith('motility')) return 'motility';
+    if (n.startsWith('exotoxin')) return 'exotoxin';
+    if (n.startsWith('nutritional') || n.includes('metabolic')) return 'nutritional';
+    if (n.startsWith('regulation')) return 'regulation';
+    if (n.startsWith('adherence'))  return 'adherence';
+    if (n.startsWith('exoenzyme'))  return 'exoenzyme';
+    if (n.startsWith('rare'))       return 'rare';
+    if (n.startsWith('other'))      return 'others';
+    return 'others';
+  }
+
+  const grid = document.getElementById('barGrid');
+  if (grid){
+    LANES.forEach(group => {
+      const lane = document.createElement('div'); lane.className = 'lane';
+      const body = document.createElement('div'); body.className = 'lane-body';
+      body.setAttribute('role','group'); body.setAttribute('aria-label', group.function || 'Function');
+
+      const ids = Array.isArray(group.ids) ? [...group.ids] : [];
+      ids.sort((a,b)=> (b.label||0) - (a.label||0));
+
+      const k = keyFor(group.function);
+      const [hue, light, dark] = FUNCTION_COLOURS[k] || ['#94a3b8', '#e2e8f0', '#64748b'];
+
+      ids.forEach(item => {
+        const t = document.createElement('div');
+        const bg = item.label===1 ? dark : item.label===0 ? light : hue;
+        t.className = 'tile';
+        t.style.background = bg;
+        t.style.borderColor = dark + '44';
+        t.title = `${group.function} • ${item.id}`;
+        t.tabIndex = 0;
+        t.addEventListener('click',()=>openModal(group.function, ids));
+        t.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') { e.preventDefault(); openModal(group.function, ids); } });
+        body.appendChild(t);
+      });
+
+      const label = document.createElement('div');
+      label.className = 'lane-label';
+      label.textContent = group.function || '—';
+
+      if (keyFor(group.function)==='rare'){
+        const hint = document.createElement('span');
+        hint.className='hint'; hint.textContent='?';
+        hint.title = RARE_DETAIL.join('\n');
+        label.appendChild(hint);
+      }
+
+      lane.appendChild(body);
+      lane.appendChild(label);
+      grid.appendChild(lane);
+    });
+  }
+
+  document.getElementById('btnExport')?.addEventListener('click', async ()=>{
+    const node = document.getElementById('barScroll'); if(!node) return;
+    const canvas = await html2canvas(node, {backgroundColor:'#ffffff', scale:2});
+    const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'vf_function_lanes.png'; a.click();
+  });
+
+  function openModal(functionName, ids){
+    let modal = document.getElementById('idModal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.id = 'idModal'; modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="box">
+          <div class="box-header">
+            <strong id="mTitle"></strong>
+            <div style="display:flex;gap:8px">
+              <button id="copyIDs" class="btn outline" type="button">Copy IDs</button>
+              <button id="mClose" class="btn" type="button">Close</button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div id="mCounts" class="muted" style="margin-bottom:10px"></div>
+            <div id="mIDs" class="ids"></div>
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', e => { if(e.target === modal) hideModal(); });
+      modal.querySelector('#mClose').addEventListener('click', hideModal);
+      modal.querySelector('#copyIDs').addEventListener('click', copyAll);
+    }
+    modal.querySelector('#mTitle').textContent = functionName || 'Function';
+    const list = modal.querySelector('#mIDs'); list.innerHTML='';
+    const idsOnly = [];
+    let c0=0,c1=0,cu=0;
+    ids.forEach(x=>{
+      idsOnly.push(x.id);
+      const tag = document.createElement('span');
+      tag.className = 'idtag';
+      tag.textContent = x.id;
+      if (x.label===1){ tag.style.background='#fee2e2'; tag.style.borderColor='#fecaca'; c1++; }
+      else if (x.label===0){ tag.style.background='#dcfce7'; tag.style.borderColor='#bbf7d0'; c0++; }
+      else { tag.style.background='#dbeafe'; tag.style.borderColor='#bfdbfe'; cu++; }
+      list.appendChild(tag);
+    });
+    modal.querySelector('#mCounts').textContent = `Virulent: ${c1} • Non-virulent: ${c0}` + (cu?` • Unknown: ${cu}`:'');
+    modal.dataset.ids = idsOnly.join('\n');
+    modal.style.display='flex';
+  }
+  function hideModal(){ const m = document.getElementById('idModal'); if(m) m.style.display='none'; }
+  function copyAll(){
+    const m = document.getElementById('idModal'); if(!m) return;
+    const text = (m.dataset.ids || '');
+    navigator.clipboard.writeText(text);
+    const btn = m.querySelector('#copyIDs'); const prev = btn.textContent; btn.textContent='Copied!'; setTimeout(()=>btn.textContent=prev,1000);
+  }
+</script>
+</body>
+</html>

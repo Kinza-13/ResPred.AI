@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Choose • ResistPredict.AI</title>
+  <style>
+    :root{
+      --main:#011C40;   /* primary (deep navy) */
+      --c1:#033E8C;
+      --c2:#0455BF;
+      --c3:#0477BF;
+      --soft:#9AB5D9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--main);
+      background:linear-gradient(0deg, #ffffff 0%, #f7fbff 100%);
+      min-height:100vh;
+      display:flex; flex-direction:column;
+    }
+
+    /* Header */
+    .top{
+      display:flex; align-items:center; justify-content:center;
+      gap:14px; padding:28px 16px 8px 16px;
+    }
+    .logo{width:54px;height:54px;display:block}
+    .brand{font-weight:900; letter-spacing:.3px; font-size:clamp(20px, 2.5vw, 28px); color:var(--main)}
+
+    /* Page title */
+    h1{
+      text-align:center; margin:8px 0 22px 0;
+      font-size:clamp(22px, 2.4vw, 28px); font-weight:800; color:var(--c1);
+    }
+
+    /* Cards grid */
+    .grid{
+      width:100%; max-width:980px; margin:0 auto; padding:0 16px 36px 16px;
+      display:grid; gap:22px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    }
+    .card{
+      background:#fff; border:1px solid #E6EEF9;
+      border-radius:18px; padding:22px;
+      box-shadow:0 10px 26px rgba(1,28,64,.08);
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      position:relative; overflow:hidden;
+    }
+    .card::after{
+      content:""; position:absolute; inset:auto 0 0 0; height:4px; background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));
+      opacity:.85;
+    }
+    .card:hover{ transform:translateY(-3px); box-shadow:0 14px 34px rgba(1,28,64,.14); border-color:#D4E3F6; }
+
+    .card h2{ margin:0 0 6px 0; font-size:clamp(18px, 2vw, 22px); font-weight:900; color:var(--main) }
+    .card p{ margin:0 0 16px 0; color:#183657; }
+
+    .btn{
+      display:inline-block; text-decoration:none; font-weight:800;
+      padding:.7rem 1.2rem; border-radius:12px; color:#fff;
+      background:linear-gradient(90deg,var(--c2),var(--c3));
+      box-shadow:0 8px 18px rgba(3,62,140,.25);
+      transition:transform .04s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(4,85,191,.28) }
+    .btn:active{ transform:translateY(0); opacity:.95 }
+
+    /* Footer */
+    footer{
+      margin-top:auto; background:var(--main); color:#fff; text-align:center;
+      padding:14px 12px; font-size:14px;
+    }
+
+    /* tiny entrance fade */
+    .fadein{opacity:0; transform:translateY(6px); animation:fade .35s ease-out .05s forwards}
+    @keyframes fade{to{opacity:1; transform:none}}
+  </style>
+</head>
+<body>
+
+  <!-- header with logo -->
+  <div class="top fadein">
+    <img class="logo" src="{% static 'img/logo_chip.png' %}" alt="ResistPredict.AI logo">
+    <div class="brand">ResistPredict.AI</div>
+  </div>
+
+  <h1 class="fadein" style="animation-delay:.08s">Choose a Module</h1>
+
+  <div class="grid fadein" style="animation-delay:.12s">
+    <!-- AMR -->
+    <section class="card">
+      <h2>Antimicrobial Resistance Gene Family Prediction</h2>
+      <p>Predict resistance and amr gene family from protein sequences using AI-powered models.</p>
+      <a class="btn" href="{% url 'amr:amr_predict' %}">Go to AMR</a>
+    </section>
+
+    <!-- VF -->
+    <section class="card">
+      <h2>Functional Annotation of Virulence Factors</h2>
+      <p>Analyze protein sequences to detect virulence and annotate their functional roles.</p>
+      <a class="btn" href="{% url 'vf:vf_predict' %}">Go to VF</a>
+    </section>
+  </div>
+
+  <footer>ResistPredict.AI</footer>
+</body>
+</html>
